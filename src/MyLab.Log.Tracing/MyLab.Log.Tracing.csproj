@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Andrey O.</Authors>
+    <Description>Adds OpenTelemetry trace id into each log message</Description>
+    <Copyright>Copyright (c) 2021 Andrey Osintsev &lt;ozzy.ext@gmail.com&gt;</Copyright>
+    <PackageIcon>analytics.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageProjectUrl>https://github.com/mylab-log/tracing</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mylab-log/tracing.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MyLab.Log.Dsl" Version="3.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="analytics.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
