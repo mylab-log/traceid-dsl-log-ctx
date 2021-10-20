@@ -1,5 +1,5 @@
-﻿using System;
-using MyLab.Log.Dsl;
+﻿using MyLab.Log.Dsl;
+using OpenTelemetry.Trace;
 
 namespace MyLab.Log.Tracing
 {
@@ -7,7 +7,7 @@ namespace MyLab.Log.Tracing
     {
         public DslExpression Apply(DslExpression dslExpression)
         {
-            throw new NotImplementedException();
+            return dslExpression.AndFactIs("trace-id", Tracer.CurrentSpan.Context.TraceId.ToHexString());
         }
     }
 }

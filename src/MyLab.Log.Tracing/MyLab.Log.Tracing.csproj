@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="MyLab.Log.Dsl" Version="3.2.2" />
+    <PackageReference Include="OpenTelemetry" Version="1.2.0-beta1" />
   </ItemGroup>
 
   <ItemGroup>
