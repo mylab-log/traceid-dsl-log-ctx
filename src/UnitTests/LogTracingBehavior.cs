@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using MyLab.Log.Dsl;
+using MyLab.Log.Tracing;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
 using Xunit;
@@ -23,7 +24,7 @@ namespace UnitTests
 			using var activity = activitySource.StartActivity("MyTestActivity");
 			var sp = new ServiceCollection()
 				.AddLogging(l => l.AddDsl())
-				.AddDslLogTracing()
+				.AddDslLogContext<TraceIdLogContext>()
 				.BuildServiceProvider();
 
 			IDslLogger l = sp.GetService<IDslLogger<LogTracingBehavior>>();
@@ -34,6 +35,28 @@ namespace UnitTests
 
 			//Assert
 			Assert.Equal(currentTraceId, log.Facts["trace-id"]);
+		}
+
+        [Fact]
+        public void ShouldNotAddFactIfTraceContentNotSet()
+        {
+			//Arrange
+            var activitySource = new ActivitySource(string.Empty);
+            var builder = Sdk.CreateTracerProviderBuilder();
+            builder.AddLegacySource("TestOperationName");
+            using var provider = builder.Build();
+
+            var sp = new ServiceCollection()
+                .AddLogging(l => l.AddDsl())
+                .AddDslLogContext<TraceIdLogContext>()
+                .BuildServiceProvider();
+
+            IDslLogger l = sp.GetService<IDslLogger<LogTracingBehavior>>();
+            //Act
+            var log = l.Action("foo").Create();
+
+            //Assert
+            Assert.False(log.Facts.ContainsKey("trace-id"));
 		}
 	}
 }
